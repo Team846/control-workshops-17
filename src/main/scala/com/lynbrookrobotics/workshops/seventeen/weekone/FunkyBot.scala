@@ -5,6 +5,7 @@ import com.lynbrookrobotics.potassium.events.{ContinuousEvent, ImpulseEvent, Imp
 import com.lynbrookrobotics.potassium.frc.WPIClock
 import com.lynbrookrobotics.potassium.streams._
 import com.lynbrookrobotics.potassium.tasks.ContinuousTask
+import com.lynbrookrobotics.workshops.ShooterFlipFlopper
 import edu.wpi.first.wpilibj.hal.HAL
 import edu.wpi.first.wpilibj.{Compressor, Joystick, RobotBase, Solenoid}
 
@@ -14,7 +15,7 @@ class FunkyBot extends RobotBase {
     implicit val impulseEvent: ImpulseEvent = eventPollingSource.event
     implicit val clock: Clock = WPIClock
     val joystick = new Joystick(/*port =*/ 1)
-    val solenoid = new Solenoid(/*channel =*/ 2)
+    val flipFlopper = new ShooterFlipFlopper
     new Compressor().enabled()
 
     // stream of `joystick.getButton` `kTrigger`
@@ -23,9 +24,9 @@ class FunkyBot extends RobotBase {
     // represent `triggerButtonStream` as an event
     val triggerButtonEvent: ContinuousEvent = ???
 
-    // first, `OpenValve` for 3 seconds
+    // first, `Flip` for 3 seconds
     // then `WaitTask` for 3 seconds
-    // then `OpenValve` until trigger release
+    // then `Flip` until trigger release
     val flipFlop: ContinuousTask = ???
 
     // on `triggerButtonEvent`, `flipFlop`
