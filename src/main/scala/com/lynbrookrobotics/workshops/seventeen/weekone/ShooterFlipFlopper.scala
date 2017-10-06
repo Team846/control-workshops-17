@@ -2,7 +2,6 @@ package com.lynbrookrobotics.workshops.seventeen.weekone
 
 import com.lynbrookrobotics.potassium.Component
 import com.lynbrookrobotics.potassium.streams._
-import com.lynbrookrobotics.workshops.seventeen.weekone.FlipOrFlop.FlipOrFlop
 import edu.wpi.first.wpilibj.Solenoid
 import squants.time.Milliseconds
 
@@ -13,16 +12,15 @@ class ShooterFlipFlopper
 
   val solenoid: Solenoid = ???
 
-  // by default, the solenoid should `FLOP`
+  // by default, the solenoid should `FlopState`
   override def defaultController: Stream[FlipOrFlop] = ???
 
   // output `signal` to the hardware
-  // `FLIP` opens the solenoid
-  // `FLOP` closes the solenoid
+  // `FlipState` opens the solenoid
+  // `FlopState` closes the solenoid
   override def applySignal(signal: FlipOrFlop): Unit = ???
 }
 
-object FlipOrFlop extends Enumeration {
-  type FlipOrFlop = Value
-  val FLIP, FLOP = Value
-}
+sealed trait FlipOrFlop
+case object FlipState extends FlipOrFlop
+case object FlopState extends FlipOrFlop
