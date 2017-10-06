@@ -1,0 +1,6 @@
+.idea/
+project/project
+target/
+.DS_Store
+.ensime
+.ensime_cache/
