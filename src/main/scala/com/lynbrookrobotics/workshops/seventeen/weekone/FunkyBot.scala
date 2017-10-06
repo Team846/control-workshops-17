@@ -1,5 +1,6 @@
 package com.lynbrookrobotics.workshops.seventeen.weekone
 
+import com.lynbrookrobotics.potassium.Signal
 import com.lynbrookrobotics.potassium.streams._
 import com.lynbrookrobotics.potassium.events.{ContinuousEvent, ImpulseEventSource}
 import edu.wpi.first.wpilibj.hal.HAL
@@ -13,7 +14,7 @@ class FunkyBot extends RobotBase {
     new Compressor().enabled()
 
     // stream of `joystick.getButton` `kTrigger`
-    val triggerButtonStream: Stream[Boolean] = ???
+    val triggerButtonStream: Signal[Boolean] = ???
 
     // represent `triggerButtonStream` as an event
     val triggerButtonEvent: ContinuousEvent = ???
