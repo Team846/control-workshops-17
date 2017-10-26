@@ -16,6 +16,8 @@ libraryDependencies += "com.lynbrookrobotics" %% "potassium-core" % potassiumVer
 libraryDependencies += "com.lynbrookrobotics" %% "potassium-commons" % potassiumVersion
 libraryDependencies += "com.lynbrookrobotics" %% "potassium-frc" % potassiumVersion
 
+libraryDependencies += "org.typelevel"  %% "squants"  % "1.3.0"
+
 libraryDependencies += "edu.wpi.first" % "wpilib" % "2017.3.1"
 libraryDependencies += "edu.wpi.first" % "networktables" % "2017.3.1"
 libraryDependencies += "edu.wpi.first" % "cscore" % "2017.3.1"
