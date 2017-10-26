@@ -2,11 +2,11 @@ package com.lynbrookrobotics.workshops.seventeen.weekone
 
 import com.lynbrookrobotics.potassium.tasks.ContinuousTask
 
-class Flip(/* what should this constructor take in? */) extends ContinuousTask {
+class JoystickToShooter(/* what should this constructor take in? */) extends ContinuousTask {
 
-  // here we `FLIP`
+  // map Joystick `throttle` values to Shooter speeds
   override protected def onStart(): Unit = ???
 
-  // and now we `FLOP`
+  // reset the Shooter to its original state
   override protected def onEnd(): Unit = ???
 }
