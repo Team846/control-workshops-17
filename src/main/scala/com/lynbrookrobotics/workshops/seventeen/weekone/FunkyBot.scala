@@ -18,9 +18,7 @@ class FunkyBot extends RobotBase {
     val joystick = new Joystick(/*port =*/ 1)
     val flywheel = new ShooterFlywheel
 
-    Signal {
-      joystick.getButton(ButtonType.kTrigger)
-    }
+    Signal(joystick.getButton(ButtonType.kTrigger))
       .filter(identity)
       .foreach(new JoystickToShooterRPM(
         joystick, flywheel

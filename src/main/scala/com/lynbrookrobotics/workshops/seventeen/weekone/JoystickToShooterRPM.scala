@@ -10,10 +10,10 @@ class JoystickToShooterRPM(val joystick: Joystick, val shooterFlywheel: ShooterF
                           (implicit val clock: Clock)
   extends ContinuousTask {
 
-  val maxRPM = RevolutionsPerMinute(1000)
+  val maxRPM = RevolutionsPerMinute(2500)
 
   override protected def onStart() = shooterFlywheel.setController(
-    Stream.periodic(Milliseconds(15))(joystick.getThrottle * maxRPM)
+    Stream.periodic(Milliseconds(10))(joystick.getThrottle * maxRPM)
   )
 
   // reset the Shooter to its default state

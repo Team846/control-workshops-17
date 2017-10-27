@@ -18,20 +18,16 @@ class ShooterFlywheel(implicit clock: Clock) extends Component[Frequency](Millis
   val aHallEffect = new Counter(0)
   val bHallEffect = new Counter(1)
 
-  // by default, the Flywheel should not run
   override def defaultController = Stream.periodic(period) {
-    RevolutionsPerMinute(0)
+    RevolutionsPerMinute(0) // by default, the Flywheel should not run
   }
 
   // output `signal` to the hardware
   override def applySignal(target: Frequency): Unit = {
-    // do the following for both motors:
-    //    if it is going too slow, apply duty cycle of 1
-    //    if it is going too fast, apply duty cycle of 0
+    // implement bang-bang control for each motor
+    // use the *Speed() methods to get sensor data
   }
 
-  // there are two magnets inserted into the shooter's flywheel
-  // therefore, each hall effect tick corresponds to 0.5 rotations
-  def aSpeed() = 0.5 / Seconds(aHallEffect.getPeriod)
-  def bSpeed() = 0.5 / Seconds(bHallEffect.getPeriod)
+  def aSpeed() = 0.5 / Seconds(aHallEffect.getPeriod) // there are two magnets inserted into the shooter's flywheel
+  def bSpeed() = 0.5 / Seconds(bHallEffect.getPeriod) // therefore, each hall effect tick corresponds to 0.5 rotations
 }
