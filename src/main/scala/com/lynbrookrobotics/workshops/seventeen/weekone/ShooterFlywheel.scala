@@ -6,14 +6,17 @@ import edu.wpi.first.wpilibj.{Solenoid, Spark}
 import squants.electro.{ElectricPotential, Volts}
 import squants.time.Milliseconds
 
-class ShooterFlywheel(/* what should this constructor take in? */) extends Component[Double](Milliseconds(15)) {
+class ShooterFlywheel(/* what should this constructor take in? */)
+  extends Component[(Double, Double)](Milliseconds(15)) {
 
-  val leftMotor = new Spark(3)
-  val rightMotor = new Spark(4)
+  val aMotor = new Spark(3)
+  val bMotor = new Spark(4)
 
   // by default, the Flywheel should not run
-  override def defaultController: Stream[Double] = ???
+  override def defaultController: Stream[(Double, Double)] = ???
 
-  // output `signal` to the hardware
-  override def applySignal(signal: Double): Unit = ???
+  // output
+  // `signal` `_1` to `aMotor`
+  // `signal` `_2` to `bMotor`
+  override def applySignal(signal: (Double, Double)): Unit = ???
 }
