@@ -1,5 +1,6 @@
 package com.lynbrookrobotics.workshops.seventeen.weekone
 
+import com.lynbrookrobotics.potassium.Signal
 import com.lynbrookrobotics.potassium.clock.Clock
 import com.lynbrookrobotics.potassium.events.{ContinuousEvent, ImpulseEvent, ImpulseEventSource}
 import com.lynbrookrobotics.potassium.frc.WPIClock
@@ -14,9 +15,11 @@ class FunkyBot extends RobotBase {
     implicit val impulseEvent: ImpulseEvent = eventPollingSource.event
     implicit val clock: Clock = WPIClock
     val joystick = new Joystick(/*port =*/ 1)
-    val flywheel = new ShooterFlywheel
+    val flywheel = new Elevator
 
-    // when the `joystick` trigger is pressed, `JoystickToShooter`
+    Signal(joystick.getButton(Joystick.ButtonType.kTrigger))
+      .filter(identity)
+      .foreach(new JoystickToShooter(joystick, flywheel))
 
     HAL.observeUserProgramStarting()
     while (true) {
