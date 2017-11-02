@@ -15,14 +15,13 @@ class FunkyBot extends RobotBase {
     val eventPollingSource = new ImpulseEventSource
     implicit val impulseEvent: ImpulseEvent = eventPollingSource.event
     implicit val clock: Clock = WPIClock
-    val joystick = new Joystick(/*port =*/ 1)
-    val flywheel = new ShooterFlywheel
 
-    Signal(joystick.getButton(ButtonType.kTrigger))
-      .filter(identity)
-      .foreach(new JoystickToShooterRPM(
-        joystick, flywheel
-      ))
+    val e = new Elevator()
+    Signal.constant(null)
+      .filter(_ => isAutonomous)
+      .foreach(
+        (new PControlElevator(e, 1400, 2) then new PControlElevator(e, 2100, 2)).toContinuous
+      )
 
     HAL.observeUserProgramStarting()
     while (true) {
