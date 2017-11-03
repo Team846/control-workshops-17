@@ -1,12 +1,17 @@
 package com.lynbrookrobotics.workshops.seventeen.weekone
 
+import com.lynbrookrobotics.potassium.clock.Clock
 import com.lynbrookrobotics.potassium.tasks.FiniteTask
+import com.lynbrookrobotics.potassium.streams._
+import edu.wpi.first.wpilibj.Joystick
 import squants.motion.Distance
+import com.lynbrookrobotics.potassium.units._
+import squants.Percent
+import squants.space.{Feet, Inches}
 
-class PControlElevator(elevator: Elevator, target: Int, threshold: Int) extends FiniteTask {
-  val current = elevator.position
+class PControlElevator(elevator: Elevator, target: Distance, threshold: Distance)(implicit clock: Clock) extends FiniteTask {
 
-  // got to the elevator's `target` position using proportional control
+  // go to the elevator's `target` position using proportional control
   // don't forget to call `finished()`
   override protected def onStart(): Unit = ???
 

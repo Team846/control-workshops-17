@@ -5,24 +5,42 @@ import com.lynbrookrobotics.potassium.clock.Clock
 import com.lynbrookrobotics.potassium.{Component, streams}
 import com.lynbrookrobotics.potassium.streams._
 import edu.wpi.first.wpilibj.AnalogInput
+import squants.{Dimensionless, Percent}
+import squants.space.{Feet, Inches}
 import squants.time.Milliseconds
 
-// https://github.com/Team846/code-2015/blob/91d2449d921f8a08c90275e0f3b54ae9af6738d7/src/com/team846/frc2015/components/Elevator.java
-class Elevator(implicit val clock: Clock) extends Component[Double](Milliseconds(15)) {
-  val safeRange = 700 to 2800 // https://github.com/Team846/code-2015/blob/master/LRT15.txt
-  val esc = new CANTalon(1234) // no port specified !?!?
-  val pot = new AnalogInput(3)
+class Elevator(hardware: ElevatorHardware)(implicit val clock: Clock) extends Component[Dimensionless](Milliseconds(15)) {
+  val streamPosition = Stream.periodic(period)(getPosition)
 
-  val position = Stream.periodic(period)(pot.getAverageValue) // in 2015 code, there was an IIR filter here
+  def getPosition = Inches((hardware.pot.getAverageValue - 2865) * -0.021)
 
-  override def defaultController = Stream.periodic(period)(0)
+  val cancelBrakeModeSafety = streamPosition
+    .map(hardware.safeRange contains)
+    .map(!_)
+    .foreach { it =>
+      hardware.esc1.enableBrakeMode(it)
+      hardware.esc2.enableBrakeMode(it)
+    }
 
-  override def applySignal(signal: Double): Unit = {
-    val potVal = pot.getAverageValue
-    if (!(safeRange contains potVal)) {
-      println(s"UNSAFE!!! pot=$potVal")
+  override def defaultController = Stream.periodic(period)(Percent(0))
+
+//  val maxOutput = Percent()
+  override def applySignal(signal: Dimensionless): Unit = {
+    val current = getPosition
+    if (
+      (current > hardware.safeRange.upper && signal > Percent(0)) || (current < hardware.safeRange.lower && signal < Percent(0))
+    ) {
+      println("SAFETY")
+      hardware.esc1.set(0)
+      hardware.esc2.set(0)
     } else {
-      esc.set(signal)
+      if (signal.abs < Percent(30)) {
+        hardware.esc1.set(signal.toPercent)
+        hardware.esc2.set(signal.toPercent)
+      } else {
+        hardware.esc1.set(0.3 * signal.toPercent.signum)
+        hardware.esc2.set(0.3 * signal.toPercent.signum)
+      }
     }
   }
 }
