@@ -24,7 +24,7 @@ class FunkyBot extends RobotBase {
       .filter(identity)
       .onStart
       .foreach(
-        new PControlElevator(e, Feet(1.7), Inches(1)).init
+        new ControlElevator(e, Feet(1.7), Inches(1)).init
       )
 
     HAL.observeUserProgramStarting()

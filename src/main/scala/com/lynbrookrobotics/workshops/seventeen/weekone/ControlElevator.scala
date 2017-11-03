@@ -9,7 +9,7 @@ import com.lynbrookrobotics.potassium.units._
 import squants.Percent
 import squants.space.{Feet, Inches}
 
-class PControlElevator(elevator: Elevator, target: Distance, threshold: Distance)(implicit clock: Clock) extends FiniteTask {
+class ControlElevator(elevator: Elevator, target: Distance, threshold: Distance)(implicit clock: Clock) extends FiniteTask {
 
   // go to the elevator's `target` position using proportional control
   // don't forget to call `finished()`
