@@ -11,7 +11,7 @@ resolvers += "opencv-maven" at "https://github.com/WPIRoboticsProjects/opencv-ma
 organization := "com.lynbrookrobotics"
 teamNumber := 846
 
-val potassiumVersion = "0.1.0-8543809b"
+val potassiumVersion = "0.1.0-8ad40db5"
 libraryDependencies += "com.lynbrookrobotics" %% "potassium-core" % potassiumVersion
 libraryDependencies += "com.lynbrookrobotics" %% "potassium-commons" % potassiumVersion
 libraryDependencies += "com.lynbrookrobotics" %% "potassium-frc" % potassiumVersion
@@ -23,3 +23,5 @@ libraryDependencies += "edu.wpi.first" % "networktables" % "2017.3.1"
 libraryDependencies += "edu.wpi.first" % "cscore" % "2017.3.1"
 libraryDependencies += "com.ctre" % "ctrlib" % "4.4.1.12"
 libraryDependencies += "org.opencv" % "opencv-java" % "3.1.0"
+
+libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.4" % "test"
