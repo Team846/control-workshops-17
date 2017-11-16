@@ -9,30 +9,23 @@ import squants.time.Milliseconds
 
 class Elevator(hardware: ElevatorHardware)
               (implicit val clock: Clock) extends Component[Dimensionless] {
-  val position = Stream.periodic(Milliseconds(15))(getPosition)
 
-  // TODO: move into hardware
-  // def getPosition = Inches((hardware.pot.getAverageValue - 2865) * -0.021)
-
-  // TODO: Implement either in override setController. Also, please don't map
-  // TODO: just to negate. It makes it harder to track
-//  val cancelBrakeModeSafety = position
-//    .map(hardware.safeRange contains)
-//    .map(!_)
-//    .foreach { it =>
-//      hardware.esc1.enableBrakeMode(it)
-//      hardware.esc2.enableBrakeMode(it)
-//    }
+  private val cancelSafety = hardware.position
+    .map(!hardware.safeRange.contains(_))
+    .foreach { it =>
+      hardware.esc1.enableBrakeMode(it)
+      hardware.esc1.set(0)
+      hardware.esc2.enableBrakeMode(it)
+      hardware.esc2.set(0)
+    }
 
   override def defaultController = Stream.periodic(Milliseconds(15))(Percent(0))
 
-//  val maxOutput = Percent()
   override def applySignal(signal: Dimensionless): Unit = {
-    val current = getPosition
-    if (
-      (current > hardware.safeRange.upper && signal > Percent(0)) || (current < hardware.safeRange.lower && signal < Percent(0))
-    ) {
-      println("Beyond Safe Region! Safety Triggered!")
+    val current = hardware.getPosition
+    if ((current > hardware.safeRange.upper && signal > Percent(0)) ||
+      (current < hardware.safeRange.lower && signal < Percent(0))) {
+      println("Safety Triggered!")
       hardware.esc1.set(0)
       hardware.esc2.set(0)
     } else {
