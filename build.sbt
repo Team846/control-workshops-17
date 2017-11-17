@@ -1,5 +1,7 @@
 enablePlugins(FRCPlugin)
 
+offline := true
+
 name := "workshops"
 
 scalaVersion := "2.12.3"
