@@ -14,7 +14,9 @@ class Elevator(hardware: ElevatorHardware)
     .map(!hardware.safeRange.contains(_))
     .foreach { it =>
       hardware.esc1.enableBrakeMode(it)
+      hardware.esc1.set(0)
       hardware.esc2.enableBrakeMode(it)
+      hardware.esc2.set(0)
     }
 
   override def defaultController = Stream.periodic(Milliseconds(15))(Percent(0))
